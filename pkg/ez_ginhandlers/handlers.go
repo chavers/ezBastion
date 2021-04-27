@@ -36,11 +36,7 @@ func Reqheaders() gin.HandlerFunc {
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Headers", "Content-Type, authorization")
 		c.Header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-		if c.Request.Method == "OPTIONS" {
-			c.Request.Response.Status = strconv.Itoa(http.StatusOK)
-		} else {
-			c.Next()
-		}
+		
 		c.Next()
 	}
 }
