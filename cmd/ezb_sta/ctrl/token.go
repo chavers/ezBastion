@@ -14,7 +14,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/go-resty/resty/v2"
-	uuid2 "github.com/gofrs/uuid"
+	uuid "github.com/satori/go.uuid"
 	"github.com/mitchellh/mapstructure"
 	"golang.org/x/crypto/bcrypt"
 	"io/ioutil"
@@ -72,11 +72,7 @@ func EzbAuthDB(c *gin.Context) {
 		stauser.User = dbaccount.Name
 		// TODO compute SID and groups
 		c.Set("connection", stauser)
-		newuuid, err := uuid2.NewV4()
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Error generating uuid"})
-		}
-		c.Set("uuid", newuuid.String())
+
 		c.Set("aud", "internal")
 		skey, err := bcrypt.GenerateFromPassword([]byte(hex.EncodeToString(randStr(16))), 32)
 		if err != nil {
@@ -128,9 +124,9 @@ func createtoken(exepath string, conf *confmanager.Configuration, c *gin.Context
 	connect, _ := c.Get("connection")
 	stauser := models.StaUser{}
 	mapstructure.Decode(connect, &stauser)
-	uuid, _ := c.Get("uuid")
+	
 	payload := &middleware.Payload{
-		JTI: fmt.Sprintf("%v", uuid),
+		JTI: uuid.NewV4().String(),
 		ISS: conf.EZBSTA.JWT.Issuer,
 		SUB: stauser.User,
 		AUD: conf.EZBSTA.JWT.Audience,
