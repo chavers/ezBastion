@@ -118,7 +118,7 @@ func EzbReNew(c *gin.Context) {
 	c.JSON(http.StatusBadRequest, gin.H{"message": "TODO"})
 }
 
-func createtoken(exepath string, conf *confmanager.Configuration, c *gin.Context) (string, error) {
+func createtoken(exepath string, conf *confmanager.Configuration, c *gin.Context) (b bearer, err error) {
 
 	cert, err := ioutil.ReadFile(exepath + "/cert/" + conf.EZBSTA.JWT.Issuer + ".crt")
 	if err != nil {
@@ -140,8 +140,19 @@ func createtoken(exepath string, conf *confmanager.Configuration, c *gin.Context
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
 	tokenString, err := token.SignedString(cert)
 	if err != nil {
-		return "", err
+		return b, err
 	}
+	b.TokenType = "bearer"
+	b.AccessToken = tokenString
+	b.ExpireAt = payload.EXP
+	b.ExpireIn = expirationTime.Second()
+	return b, nil
+}
 
-	return tokenString, nil
+
+type bearer struct {
+	ExpireIn    int    `json:"expire_in"`
+	ExpireAt    int64  `json:"expire_at"`
+	AccessToken string `json:"access_token"`
+	TokenType   string `json:"token_type"`
 }
