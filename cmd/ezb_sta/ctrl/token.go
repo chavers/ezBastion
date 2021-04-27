@@ -78,11 +78,7 @@ func EzbAuthDB(c *gin.Context) {
 		}
 		c.Set("uuid", newuuid.String())
 		c.Set("aud", "internal")
-		skey, err := bcrypt.GenerateFromPassword([]byte(hex.EncodeToString(randStr(16))), 32)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Error generating sign key"})
-		}
-		c.Set("sign_key", skey)
+
 
 		stauser.User = username
 		/*
