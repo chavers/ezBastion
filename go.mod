@@ -8,22 +8,25 @@ require (
 	github.com/chavers/ezb_priv v0.0.0-20210325081957-37a1fc34c869
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/location v0.0.2
+	github.com/gin-contrib/sessions v0.0.3 // indirect
 	github.com/gin-gonic/contrib v0.0.0-20201101042839-6a891bf89f19
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-ole/go-ole v1.2.5 // indirect
 	github.com/go-resty/resty/v2 v2.5.0
 	github.com/gofrs/uuid v4.0.0+incompatible
 	github.com/jinzhu/gorm v1.9.16
+	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/pelletier/go-toml v1.8.1
 	github.com/satori/go.uuid v1.2.0
 	github.com/shirou/gopsutil v3.21.2+incompatible
 	github.com/sirupsen/logrus v1.8.1
 	github.com/tklauser/go-sysconf v0.3.4 // indirect
 	github.com/urfave/cli v1.22.5
+	golang.org/x/crypto v0.0.0-20210415154028-4f45737414dc // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	golang.org/x/sys v0.0.0-20210314195730-07df6a141424
 	golang.org/x/text v0.3.5
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 )
 
-replace github.com/chavers/ezb_priv => C:\Users\chavers\go\src\chavers.localhost\ezb_priv\
+//replace github.com/chavers/ezb_priv => C:\Users\chavers\go\src\chavers.localhost\ezb_priv\
