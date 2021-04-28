@@ -74,11 +74,7 @@ func EzbAuthDB(c *gin.Context) {
 		c.Set("connection", stauser)
 
 		c.Set("aud", "internal")
-		skey, err := bcrypt.GenerateFromPassword([]byte(hex.EncodeToString(randStr(16))), 32)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Error generating sign key"})
-		}
-		c.Set("sign_key", skey)
+
 
 		stauser.User = username
 		/*
@@ -121,10 +117,8 @@ func createtoken(exepath string, conf *confmanager.Configuration, c *gin.Context
 		return "", err
 	}
 	expirationTime := time.Now().Add(time.Minute)
-	connect, _ := c.Get("connection")
-	stauser := models.StaUser{}
-	mapstructure.Decode(connect, &stauser)
-	
+	stauser, _ := c.MustGet("connection").(models.StaUser)
+
 	payload := &middleware.Payload{
 		JTI: uuid.NewV4().String(),
 		ISS: conf.EZBSTA.JWT.Issuer,

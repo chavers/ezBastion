@@ -31,6 +31,11 @@ func (sm mainService) StartMainService(serverchan *chan bool) {
 	logmanager.Debug("#### Main service started #####")
 	// Pushing current conf to controllers
 	server := gin.Default()
+		
+	server.OPTIONS("*a", func(c *gin.Context) {
+		c.AbortWithStatus(200)
+	})
+	
 	server.Use(ez_ginhandlers.LoadConfig(&conf, exePath))
 	server.Use(ez_ginhandlers.Reqheaders())
 	server.Use()
