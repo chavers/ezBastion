@@ -125,9 +125,7 @@ func createtoken(exepath string, conf *confmanager.Configuration, c *gin.Context
 		return "", err
 	}
 	expirationTime := time.Now().Add(time.Minute)
-	connect, _ := c.Get("connection")
-	stauser := models.StaUser{}
-	mapstructure.Decode(connect, &stauser)
+	stauser, _ := c.MustGet("connection").(models.StaUser)
 	uuid, _ := c.Get("uuid")
 	payload := &middleware.Payload{
 		JTI: fmt.Sprintf("%v", uuid),
